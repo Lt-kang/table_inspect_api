@@ -1,0 +1,92 @@
+/* 기존 Body 스타일 유지 */
+body {
+    font-family: 'NanumGothic', sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tag 계층 구조 */
+h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.3em;
+}
+
+h2 {
+    font-size: 2em;
+    color: #34495e;
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid #95a5a6;
+    padding-bottom: 0.2em;
+}
+
+h3 {
+    font-size: 1.75em;
+    color: #7f8c8d;
+    margin-bottom: 0.5em;
+}
+
+h4, h5, h6 {
+    font-size: 1.5em;
+    color: #bdc3c7;
+    margin-bottom: 0.5em;
+}
+
+/* Table 스타일 */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 1.5em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 1em;
+    text-align: left;
+}
+
+table th, table td {
+    padding: 0.75em 1em;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #3498db;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #f1c40f;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* 기타 유용한 스타일 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

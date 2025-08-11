@@ -1,0 +1,6 @@
+{
+    "mainImage": "http://localhost:8000/images/main.jpg",
+    "hoverImage": "http://localhost:8000/images/hover.jpg",
+    "html": "<h1>제목</h1><p>내용입니다.</p>",
+    "hiddenTextInfo": "example.png"
+  }

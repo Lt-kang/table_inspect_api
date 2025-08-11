@@ -8,7 +8,10 @@ router = APIRouter()
 
 from src.get_user_dir import get_user_dir
 from src.html2img import html_to_png
-
+from src.processing import (
+    read_html_file,
+    img_to_base64
+)
 
 
 def preprocess_data(user_id):
@@ -38,27 +41,26 @@ def preprocess_data(user_id):
 async def main(request: Request, index: str):
     user_id = request.client.host
 
-    user_dir = get_user_dir(user_id)
+    user_base_dir = get_user_dir(user_id)
 
-    user_html_to_png_dir = Path(user_dir) / "html_to_png"
+    with open(user_base_dir / "file_index.json", "r", encoding="utf-8") as f:
+        file_index = json.load(f)
 
-    
+    file_index = sorted(list(file_index.keys()))
 
+    file_index_min = int(file_index[0])
+    file_index_max = int(file_index[-1])
 
-
-
-
-    if index >= len(data) or index < 0:
+    if file_index_min > index or index > file_index_max:
         return JSONResponse({"error": "Invalid ID"}, status_code=404)
     
-    target_data = data[id]
-    
+    target_index = file_index[str(index)]
     return JSONResponse(
         {
-            "mainImage": target_data['mainImage'],
-            "hoverImage": target_data['hoverImage'],
-            "html": target_data['html'],
-            "hiddenTextInfo": target_data['hiddenTextInfo']
+            "mainImage": img_to_base64(target_index['png']),
+            "hoverImage": img_to_base64(target_index['html_to_png']),
+            "html": read_html_file(target_index['html']),
+            "hiddenTextInfo": target_index['hiddenTextInfo']
         }
     )
 

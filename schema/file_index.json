@@ -1,0 +1,14 @@
+{
+    "0": {
+        "html": "user_dir/raw/0001.html",
+        "png": "user_dir/raw/0001.png",
+        "html_to_png": "user_dir/html_to_png/0001.png",
+        "hidden_text_info": "0001"
+    },
+    "1": {
+        "html": "user_dir/raw/0002.html",
+        "png": "user_dir/raw/0002.png",
+        "html_to_png": "user_dir/html_to_png/0002.png",
+        "hidden_text_info": "0002"
+    }
+}

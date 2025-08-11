@@ -24,15 +24,14 @@ async def save_html(
         user_base_dir = Path(get_user_dir(user_id))
 
         user_saved_dir = Path(user_base_dir) / "saved"
-        user_saved_dir.mkdir(parents=True, exist_ok=True)
-
         user_raw_dir = Path(user_base_dir) / "raw"
-
         user_html_to_png_dir = Path(user_base_dir) / "html_to_png"
-        user_html_to_png_dir.mkdir(parents=True, exist_ok=True)
 
         file_path = user_saved_dir / filename
         with open(file_path, "w", encoding="utf-8") as f:
+            if html_content.endswith("<p><br></p>"):
+                html_content = html_content[:-len("<p><br></p>")]
+                
             f.write(html_content)
 
         html_to_png(file_path, 

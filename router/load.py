@@ -72,17 +72,18 @@ from typing import List
 @router.post("/load", response_class=JSONResponse)
 async def load_files(
     request: Request,
-    user_folder: str = Form(...),
+    # user_folder: str = Form(...),
     files: List[UploadFile] = File(...)
 ):
     try:
         user_id = request.client.host
 
-        user_dir = get_user_dir(user_id, init=True)
+        user_base_dir = Path(get_user_dir(user_id, init=True))
+        user_raw_dir = user_base_dir / "raw"
+        user_saved_dir = user_base_dir / "saved"
+        user_html_to_png_dir = user_base_dir / "html_to_png"
 
-        user_raw_dir = Path(user_dir) / "raw"
-
-        
+       
         '''
         upload file을 server local에 저장
         '''
@@ -97,6 +98,7 @@ async def load_files(
                 saved_files.append(filename)
 
         if not saved_files:
+            print("저장된 파일이 없습니다. png 또는 html 파일만 허용됩니다.")
             return JSONResponse({"message": "저장된 파일이 없습니다. png 또는 html 파일만 허용됩니다."}, status_code=400)
         
 
@@ -106,10 +108,10 @@ async def load_files(
         이는 이후 작업시 load를 빨리 하기 위함에 있음.
         '''
         preprocess_data(user_id) # 해당 과정에서 1, 2, 3번을 수행함.
-
         return JSONResponse({"message": "upload success", "saved_files": saved_files}, status_code=200)
     
     except Exception as e:
+        print(e)
         return JSONResponse({"message": f"upload failed: {str(e)}"}, status_code=400)
 
 

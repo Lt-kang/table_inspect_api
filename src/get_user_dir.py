@@ -31,8 +31,9 @@ def create_user_dir(user_dir:str):
     user_saved_dir.mkdir(parents=True, exist_ok=True)
     user_html_to_png_dir.mkdir(parents=True, exist_ok=True)
 
-    with open(user_dir / "file_index.json", "w", encoding="utf-8") as f:
-        json.dump({}, f)
+    if not (user_dir / "file_index.json").exists():
+        with open(user_dir / "file_index.json", "w", encoding="utf-8") as f:
+            json.dump({}, f)
 
 
 
@@ -53,4 +54,4 @@ def get_user_dir(user_id, init=False):
 
     user_dir = user_mapping[user_id]
     create_user_dir(user_dir)
-    return user_dir
+    return Path(user_dir)

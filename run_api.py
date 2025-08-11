@@ -18,7 +18,16 @@ app.include_router(load.router, prefix="/api/v1")
 app.include_router(save.router, prefix="/api/v1")
 app.include_router(extract.router, prefix="/api/v1")
 
+'''
+get
+/api/v1/inspect
+/api/v1/extract
 
+
+post
+/api/v1/load
+/api/v1/save
+'''
 
 app.add_middleware(
     CORSMiddleware,
@@ -38,7 +47,5 @@ async def health_check():
 
 if __name__ == "__main__":
     # uvicorn.run('run_api:app', host="172.127.0.201", port=8000, reload=True)
-    uvicorn.run('run_api:app', host="0.0.0.0", port=8000, reload=True)
-
-
+    uvicorn.run('run_api:app', host="localhost", port=8000, reload=True)
 

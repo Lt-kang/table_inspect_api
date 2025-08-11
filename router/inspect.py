@@ -37,7 +37,7 @@ def preprocess_data(user_id):
     return True
 
 
-@router.get("/data/{index}", response_class=HTMLResponse)
+@router.get("/inspect/{index}", response_class=HTMLResponse)
 async def main(request: Request, index: str):
     user_id = request.client.host
 
@@ -46,21 +46,27 @@ async def main(request: Request, index: str):
     with open(user_base_dir / "file_index.json", "r", encoding="utf-8") as f:
         file_index = json.load(f)
 
-    file_index = sorted(list(file_index.keys()))
+    file_index_keys = sorted(list(file_index.keys()))
 
-    file_index_min = int(file_index[0])
-    file_index_max = int(file_index[-1])
+    file_index_min = int(file_index_keys[0])
+    file_index_max = int(file_index_keys[-1])
 
-    if file_index_min > index or index > file_index_max:
+    if file_index_min > int(index) or int(index) > file_index_max:
         return JSONResponse({"error": "Invalid ID"}, status_code=404)
     
     target_index = file_index[str(index)]
+    print({
+            "mainImage": img_to_base64(target_index['png']),
+            "hoverImage": img_to_base64(target_index['html_to_png']),
+            "html": read_html_file(target_index['html']),
+            "hiddenTextInfo": target_index['hidden_text_info']
+        })
     return JSONResponse(
         {
             "mainImage": img_to_base64(target_index['png']),
             "hoverImage": img_to_base64(target_index['html_to_png']),
             "html": read_html_file(target_index['html']),
-            "hiddenTextInfo": target_index['hiddenTextInfo']
+            "hiddenTextInfo": target_index['hidden_text_info']
         }
     )
 

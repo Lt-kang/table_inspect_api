@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
+import numpy as np
 import json
 from pathlib import Path
 
@@ -40,6 +41,16 @@ def preprocess_data(user_id):
 @router.get("/inspect/{index}", response_class=HTMLResponse)
 async def main(request: Request, index: str):
     user_id = request.client.host
+
+    if int(index) == -1:
+        return JSONResponse(
+            {
+                "mainImage": "",
+                "hoverImage": "",
+                "html": "",
+                "hiddenTextInfo": ""
+            }
+        )
 
     user_base_dir = get_user_dir(user_id)
 

@@ -1,5 +1,5 @@
 import base64
-
+import numpy as np
 
 def read_html_file(html_path: str) -> str:
     """
@@ -18,6 +18,10 @@ def img_to_base64(image_path: str) -> str:
     :param image_path: 변환할 이미지 파일의 경로
     :return: base64 인코딩된 문자열
     """
+    # if isinstance(image_path, np.ndarray):
+    #     encoded_string = base64.b64encode(image_path).decode('utf-8')
+    #     return "data:image/png;base64," + encoded_string
+    
     with open(image_path, "rb") as img_file:
         encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
     return "data:image/png;base64," + encoded_string

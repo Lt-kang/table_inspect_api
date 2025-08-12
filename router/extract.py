@@ -4,12 +4,13 @@ zipping_html
 '''
 
 from fastapi import APIRouter, Request
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 
 
 import zipfile
 import io
 from pathlib import Path
+from datetime import datetime
 
 from src.get_user_dir import get_user_dir
 
@@ -39,10 +40,17 @@ async def download_html_zip(request: Request):
                 zip_file.write(html_file, arcname=html_file.name)
         zip_buffer.seek(0)
 
-        return FileResponse(
+        headers = {
+            "Content-Disposition": f'attachment; filename="results_{datetime.now().strftime("%Y%m%d_%H%M%S")}.zip"',
+            # 브라우저에서 파일명 노출 필요 시(CORS 환경)
+            "Access-Control-Expose-Headers": "Content-Disposition",
+        }
+
+        return StreamingResponse(
             zip_buffer,
-            media_type="application/x-zip-compressed",
-            filename="html_files.zip"
+            media_type="application/zip",
+            headers=headers
         )
+
     except Exception as e:
         return JSONResponse({"message": f"압축 및 다운로드 실패: {str(e)}"}, status_code=400)

@@ -31,7 +31,8 @@ post
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React 앱의 주소
+    # allow_origins=["http://localhost:3000"],  # React 앱의 주소
+    allow_origins=["*"],  # 모든 주소 허용
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -46,6 +47,6 @@ async def health_check():
 
 
 if __name__ == "__main__":
-    # uvicorn.run('run_api:app', host="172.127.0.201", port=8000, reload=True)
-    uvicorn.run('run_api:app', host="localhost", port=8000, reload=True)
+    uvicorn.run('run_api:app', host="172.127.0.201", port=8000, reload=True)
+    # uvicorn.run('run_api:app', host="localhost", port=8000, reload=True)
 

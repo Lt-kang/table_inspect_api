@@ -40,8 +40,8 @@ def html_to_png(html_file:Path, png_file:Path, save_path:Path):
                         'zoom': '1.0'}
         )
 
-        img = imread(Path(tmpdir) / '_temp.png')
-        img = cv2.resize(img, (img.shape[1], img.shape[0]))
-        imwrite(str(save_path), img)
+        saved_img = imread(Path(tmpdir) / '_temp.png')
+        saved_img = cv2.resize(saved_img, (img.shape[1], img.shape[0]))
+        imwrite(str(save_path), saved_img)
 
     

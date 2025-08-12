@@ -15,13 +15,13 @@ from src.processing import (
 
 
 def preprocess_data(user_id):
-    user_dir = get_user_dir(user_id)
+    user_base_dir = get_user_dir(user_id)
 
-    user_raw_html_dir = Path(user_dir) / "raw"
-    user_saved_html_dir = Path(user_dir) / "saved"
-    user_raw_png_dir = Path(user_dir) / "raw"
+    user_raw_html_dir = user_base_dir / "raw"
+    user_saved_html_dir = user_base_dir / "saved"
+    user_raw_png_dir = user_base_dir / "raw"
 
-    user_html_to_png_dir = Path(user_dir) / "html_to_png"
+    user_html_to_png_dir = user_base_dir / "html_to_png"
 
     html_files = {file.stem: file for file in user_raw_html_dir.rglob("*.html")}
     for file in user_saved_html_dir.rglob("*.html"):
@@ -55,12 +55,12 @@ async def main(request: Request, index: str):
         return JSONResponse({"error": "Invalid ID"}, status_code=404)
     
     target_index = file_index[str(index)]
-    print({
-            "mainImage": img_to_base64(target_index['png']),
-            "hoverImage": img_to_base64(target_index['html_to_png']),
-            "html": read_html_file(target_index['html']),
-            "hiddenTextInfo": target_index['hidden_text_info']
-        })
+    # print({
+    #         "mainImage": img_to_base64(target_index['png']),
+    #         "hoverImage": img_to_base64(target_index['html_to_png']),
+    #         "html": read_html_file(target_index['html']),
+    #         "hiddenTextInfo": target_index['hidden_text_info']
+    #     })
     return JSONResponse(
         {
             "mainImage": img_to_base64(target_index['png']),

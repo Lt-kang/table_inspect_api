@@ -27,11 +27,9 @@ async def download_html_zip(request: Request):
     '''
     try:
         user_id = request.client.host
-        user_dir = Path(get_user_dir(user_id)) / "saved"
-        if not user_dir.exists():
-            return JSONResponse({"message": "유저 디렉토리가 존재하지 않습니다."}, status_code=404)
+        user_saved_dir = get_user_dir(user_id) / "saved"
 
-        html_files = list(user_dir.rglob("*.html"))
+        html_files = list(user_saved_dir.rglob("*.html"))
         if not html_files:
             return JSONResponse({"message": "html 파일이 존재하지 않습니다."}, status_code=404)
 

@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi import Form
 
 from pathlib import Path
+import json
 
 from src.get_user_dir import get_user_dir
 from src.html2img import html_to_png
@@ -37,6 +38,22 @@ async def save_html(
         html_to_png(file_path, 
                     user_raw_dir / f"{hiddenTextInfo}.png",
                     user_html_to_png_dir / f"{hiddenTextInfo}.png")
+        
+        with open(user_base_dir / "file_index.json", "r", encoding="utf-8") as f:
+            file_index = json.load(f)
+
+        for k, v in file_index.items():
+            if v['hidden_text_info'] == hiddenTextInfo:
+                file_index[k] = {
+                    "html": str(file_path),
+                    "png": str(user_raw_dir / f"{hiddenTextInfo}.png"),
+                    "html_to_png": str(user_html_to_png_dir / f"{hiddenTextInfo}.png"),
+                    "hidden_text_info": hiddenTextInfo
+                }
+
+        with open(user_base_dir / "file_index.json", "w", encoding="utf-8") as f:
+            json.dump(file_index, f, ensure_ascii=False, indent=4)
+        
 
         return JSONResponse({"message": "HTML 저장 성공", 
                              "filename": hiddenTextInfo}, status_code=200)

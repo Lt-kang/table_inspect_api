@@ -90,3 +90,11 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+td[issue="multi-div"] {
+    background-color: #c9e3ff; /* 예: 아주 연한 파란색 */
+  }
+
+td[issue="multi-div"] span {
+    background-color: transparent !important;
+  }

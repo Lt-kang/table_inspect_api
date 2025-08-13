@@ -15,28 +15,6 @@ from src.processing import (
 )
 
 
-def preprocess_data(user_id):
-    user_base_dir = get_user_dir(user_id)
-
-    user_raw_html_dir = user_base_dir / "raw"
-    user_saved_html_dir = user_base_dir / "saved"
-    user_raw_png_dir = user_base_dir / "raw"
-
-    user_html_to_png_dir = user_base_dir / "html_to_png"
-
-    html_files = {file.stem: file for file in user_raw_html_dir.rglob("*.html")}
-    for file in user_saved_html_dir.rglob("*.html"):
-        html_files[file.stem] = file
-
-    png_files = {file.stem: file for file in user_raw_png_dir.rglob("*.png")}
-
-    for key in png_files.keys():
-        html_file = html_files[key]
-        png_file = png_files[key]
-        html_to_png(html_file, png_file, user_html_to_png_dir / f"{key}.png")
-
-    return True
-
 
 @router.get("/inspect/{index}", response_class=HTMLResponse)
 async def main(request: Request, index: str):
@@ -53,11 +31,12 @@ async def main(request: Request, index: str):
         )
 
     user_base_dir = get_user_dir(user_id)
+    user_html_to_png_dir = user_base_dir / "html_to_png"
 
     with open(user_base_dir / "file_index.json", "r", encoding="utf-8") as f:
         file_index = json.load(f)
 
-    file_index_keys = sorted(list(file_index.keys()))
+    file_index_keys = sorted(list(file_index.keys()), key=lambda x: int(x))
 
     file_index_min = int(file_index_keys[0])
     file_index_max = int(file_index_keys[-1])
@@ -66,6 +45,21 @@ async def main(request: Request, index: str):
         return JSONResponse({"error": "Invalid ID"}, status_code=404)
     
     target_index = file_index[str(index)]
+
+    '''
+    html to png randering
+    '''
+
+    if not (Path(user_html_to_png_dir) / f"{target_index['hidden_text_info']}.png").exists() and \
+        Path(target_index['html']).exists() and \
+        Path(target_index['html']).read_text(encoding="utf-8").strip() != "":
+        
+        html_to_png(Path(target_index['html']), 
+                    Path(target_index['png']), 
+                    Path(user_html_to_png_dir) / f"{target_index['hidden_text_info']}.png")
+
+
+
     # print({
     #         "mainImage": img_to_base64(target_index['png']),
     #         "hoverImage": img_to_base64(target_index['html_to_png']),

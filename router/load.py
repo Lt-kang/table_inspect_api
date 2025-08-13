@@ -32,15 +32,15 @@ def preprocess_data(user_id):
         html_files[file.stem] = file
 
     png_files = {file.stem: file for file in user_raw_png_dir.rglob("*.png")}
-    for key in png_files.keys():
-        html_file = html_files[key]
-        png_file = png_files[key]
-        html_to_png(html_file, 
-                    png_file, 
-                    user_html_to_png_dir / f"{key}.png")
+    # for key in png_files.keys():
+    #     html_file = html_files[key]
+    #     png_file = png_files[key]
+        # html_to_png(html_file, 
+        #             png_file, 
+        #             user_html_to_png_dir / f"{key}.png")
 
     file_index = defaultdict(dict)
-    for idx, key in enumerate(html_files.keys()):
+    for idx, key in enumerate(png_files.keys()):
         file_index[idx] = {
             "html": str(html_files[key]),
             "png": str(png_files[key]),

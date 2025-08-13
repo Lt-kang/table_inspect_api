@@ -38,7 +38,8 @@ async def save_html(
                     user_raw_dir / f"{hiddenTextInfo}.png",
                     user_html_to_png_dir / f"{hiddenTextInfo}.png")
 
-        return JSONResponse({"message": "HTML 저장 성공", "filename": hiddenTextInfo}, status_code=200)
+        return JSONResponse({"message": "HTML 저장 성공", 
+                             "filename": hiddenTextInfo}, status_code=200)
     
     except Exception as e:
         return JSONResponse({"message": f"HTML 저장 실패: {str(e)}"}, status_code=400)
